@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>URL shortening</title>
+</head>
+<body>
+    <h1>URL shortening</h1>
+    <form method="post" action="/add_url">
+        <input type="text" name="URL">
+        <button type="submit">Get short URL</button>
+    </form>
+    <div>{{ short_URL }}</div>
+</body>
+</html>

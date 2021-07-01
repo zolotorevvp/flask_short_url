@@ -1,13 +1,29 @@
-from flask import Flask
+from flask import Flask, render_template, request, redirect, url_for
+from flask_sqlalchemy import SQLAlchemy
+import requests
 
 
 app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://flask_url:flask@localhost/db_shortening'
+db = SQLAlchemy(app)
 
 
-@app.route("/")
-def hello_world():
-    return "<p>Hello, World!</p>"
+class ShortURL(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    token = db.Column(db.String(32), nullable=False)
+    long_url = db.Column(db.String(1024), nullable=False)
+
+
+@app.route('/', methods=['GET'])
+def main():
+    return render_template('index.html')
+
+
+@app.route('/add_url', methods=['GET', 'POST'])
+def add_url():
+    short_url = request.form['URL']
+    return render_template('index.html', short_URL=short_url)
 
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=1)
